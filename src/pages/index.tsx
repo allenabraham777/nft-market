@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       </Head>
 
       <div>
-        <h1>NFT Marketplace</h1>
+        <h1 className="text-app-primary">NFT Marketplace</h1>
       </div>
     </div>
   )
