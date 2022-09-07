@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 import Header from "../components/Header";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DefaultLayout = ({ children }: { children: ReactNode }) => {
   return (
@@ -8,6 +10,7 @@ const DefaultLayout = ({ children }: { children: ReactNode }) => {
       <div className="flex h-full w-full overflow-y-auto overflow-x-hidden px-4">
         {children}
       </div>
+      <ToastContainer />
     </div>
   );
 };

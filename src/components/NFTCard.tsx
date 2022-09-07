@@ -2,8 +2,12 @@ import classNames from "classnames";
 import { BigNumber } from "ethers";
 import { useEffect, useState } from "react";
 import { ipfsToHTTPS } from "../helpers";
+import useNFTMarket from "../state/nft-market";
+import useSigner from "../state/signer";
 import Avatar from "./Avatar";
 import SellPopup from "./SellPopup";
+import BeatLoader from "react-spinners/BeatLoader";
+import {toast} from 'react-toastify';
 
 type NFTMetadata = {
   name: string;
@@ -18,10 +22,11 @@ type NFTCardProps = {
 
 const NFTCard = (props: NFTCardProps) => {
   const { nft, className } = props;
-  const address = "";
+  const { address } = useSigner();
   const [meta, setMeta] = useState<NFTMetadata>();
   const [loading, setLoading] = useState(false);
   const [sellPopupOpen, setSellPopupOpen] = useState(false);
+  const { listNFT, cancelListing, buyNFT } = useNFTMarket();
 
   useEffect(() => {
     const fetchMetadata = async () => {
@@ -44,6 +49,11 @@ const NFTCard = (props: NFTCardProps) => {
     } else {
       if (forSale) onBuyClicked();
       else {
+        toast.error("NFT is not owned and is not listed", {
+          position: "bottom-right",
+          closeOnClick: true,
+          pauseOnHover: true,
+        });
         throw new Error(
           "onButtonClick called when NFT is not owned and is not listed, should never happen"
         );
@@ -52,15 +62,49 @@ const NFTCard = (props: NFTCardProps) => {
   };
 
   const onBuyClicked = async () => {
-    // TODO: buy NFT
+    setLoading(true);
+    try {
+      await buyNFT(nft);
+    } catch (error) {
+      console.error(error);
+      toast.error("NFT transaction failed", {
+        position: "bottom-right",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+    setLoading(false);
   };
 
   const onCancelClicked = async () => {
-    // TODO: cancel listing
+    setLoading(true);
+    try {
+      await cancelListing(nft.id);
+    } catch (error) {
+      console.error(error);
+      toast.error("NFT transaction failed", {
+        position: "bottom-right",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+    setLoading(false);
   };
 
   const onSellConfirmed = async (price: BigNumber) => {
-    // TODO: list NFT
+    setSellPopupOpen(false);
+    setLoading(true);
+    try {
+      await listNFT(nft.id, price);
+    } catch (error) {
+      console.error(error);
+      toast.error("NFT transaction failed", {
+        position: "bottom-right",
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+    }
+    setLoading(false);
   };
 
   const forSale = nft.price != "0";
@@ -92,11 +136,11 @@ const NFTCard = (props: NFTCardProps) => {
         <Avatar seed={nft.owner} />
       </div>
       <button
-        className="group flex h-16 items-center justify-center bg-black text-lg font-semibold text-white"
+        className="group flex h-16 items-center justify-center bg-app-primary text-lg font-semibold text-white"
         onClick={onButtonClick}
         disabled={loading}
       >
-        {loading && "Busy..."}
+        {loading && <BeatLoader size={8} color="#FFFFFF" />}
         {!loading && (
           <>
             {!forSale && "SELL"}

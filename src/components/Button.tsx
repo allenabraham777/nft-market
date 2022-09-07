@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes } from "react";
+import BeatLoader from "react-spinners/BeatLoader";
 
 type ButtonProps = {
   loading?: boolean;
@@ -9,11 +10,11 @@ const Button = (props: ButtonProps) => {
 
   return (
     <button
-      className="h-12 rounded-lg bg-black px-4 py-2 text-xl font-semibold text-white"
+      className="h-12 rounded-lg bg-app-primary px-4 py-2 text-xl font-semibold text-white"
       disabled={disabled || loading}
       {...rest}
     >
-      {loading ? "Busy..." : children}
+      {loading ? <BeatLoader size={8} color="#FFFFFF" /> : children}
     </button>
   );
 };

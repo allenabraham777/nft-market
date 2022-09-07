@@ -9,11 +9,10 @@ type Props = {
 const Avatar = ({ seed }: Props) => {
   const shortAddress = useMemo(() => minifyAddress(seed), [seed]);
   return (
-    <div className="flex items-center border-2 border-app-primary px-2 rounded-full">
+    <div className="flex items-center">
       <Image
         width={35}
         height={35}
-        className="rounded-full overflow-hidden"
         src={`https://avatars.dicebear.com/api/open-peeps/${seed}.svg`}
       />
       <span className="m-2">{shortAddress}</span>

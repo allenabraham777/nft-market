@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
-import { ethers } from "ethers";
 import useSigner from "../signer";
+import { parseRawNFT } from "./helpers";
 import {
   GetOwnedNFTs,
   GetOwnedNFTsVariables,
@@ -30,14 +30,5 @@ const GET_OWNED_NFTS = gql`
     }
   }
 `;
-
-const parseRawNFT = (raw: GetOwnedNFTs_nfts): NFT => {
-  return {
-    id: raw.id,
-    owner: raw.price == "0" ? raw.to : raw.from,
-    price: raw.price == "0" ? raw.price : ethers.utils.formatEther(raw.price),
-    tokenURI: raw.tokenURI,
-  };
-};
 
 export default useOwnedNFTs;

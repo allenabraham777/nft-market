@@ -27,7 +27,7 @@ const CustomDialog = (props: DialogProps) => {
         <Dialog.Description className="mb-2">{description}</Dialog.Description>
         {children}
       </div>
-      <Dialog.Overlay className="fixed inset-0 z-10 bg-black opacity-30" />
+      <Dialog.Overlay className="fixed inset-0 z-10 bg-black opacity-60" />
     </Dialog>
   );
 };

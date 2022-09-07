@@ -23,15 +23,16 @@ const ImagePicker = ({ name, className }: ImagePickerProps) => {
 
   const style: CSSProperties = {
     backgroundImage: url && `url(${url})`,
-    backgroundSize: "cover",
+    backgroundSize: "contain",
     backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
   };
 
   return (
     <button
       className={classNames(
         className,
-        "group flex h-96 w-72 items-center justify-center rounded-xl border",
+        "group flex py-24 w-full items-center justify-center rounded-xl border",
         { "border-black": !error, "border-red-500": error }
       )}
       style={style}
