@@ -1,8 +1,27 @@
 import NFTCard from "../components/NFTCard";
 import useNFTMarket from "../state/nft-market";
+import useSigner from "../state/signer";
 
 const Owned = () => {
   const { ownedNFTs, ownedListedNFTs } = useNFTMarket();
+  const { signer } = useSigner();
+
+  if (!signer) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center font-semibold text-2xl">
+        Connect your wallet
+      </div>
+    );
+  }
+
+  if (!ownedNFTs?.length && !ownedListedNFTs?.length) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center font-semibold text-2xl">
+        No NFTs uploaded yet...
+      </div>
+    );
+  }
+
   return (
     <div className="flex w-full flex-col">
       <div className="flex flex-wrap">

@@ -2,9 +2,28 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import NFTCard from "../components/NFTCard";
 import useNFTMarket from "../state/nft-market";
+import useSigner from "../state/signer";
 
 const Home: NextPage = () => {
   const { listedNFTs } = useNFTMarket();
+  const { signer } = useSigner();
+
+  if (!signer) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center font-semibold text-2xl">
+        Connect your wallet
+      </div>
+    );
+  }
+
+  if (!listedNFTs?.length) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center font-semibold text-2xl">
+        Nothing to show here...
+      </div>
+    );
+  }
+
   return (
     <div className="flex w-full flex-col">
       <Head>

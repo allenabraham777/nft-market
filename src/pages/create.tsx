@@ -5,7 +5,7 @@ import useSigner from "../state/signer";
 
 const Create = () => {
   const { signer } = useSigner();
-  const {createNFT} = useNFTMarket();
+  const { createNFT } = useNFTMarket();
 
   return (
     <div
@@ -13,7 +13,11 @@ const Create = () => {
         "items-center justify-center": !signer,
       })}
     >
-      {signer ? <CreationForm onSubmit={createNFT} /> : "Connect your wallet"}
+      {signer ? (
+        <CreationForm onSubmit={createNFT} />
+      ) : (
+        <h1 className="font-semibold text-2xl">Connect your wallet</h1>
+      )}
     </div>
   );
 };
